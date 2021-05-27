@@ -1,0 +1,264 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale="1.0">
+        <title>BendTheTrend</title>
+        <link rel="stylesheet" href="{% static 'css/style.css' %}">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/fontawesome.min.css" rel="stylesheet">
+	    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	    <link rel="stylesheet" type="text/css" href="{% static 'css/products.css' %}">
+
+	<script type="text/javascript">
+		var user = '{{request.user}}'
+
+		function getToken(name) {
+		    var cookieValue = null;
+		    if (document.cookie && document.cookie !== '') {
+		        var cookies = document.cookie.split(';');
+		        for (var i = 0; i < cookies.length; i++) {
+		            var cookie = cookies[i].trim();
+		            // Does this cookie string begin with the name we want?
+		            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+		                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+		                break;
+		            }
+		        }
+		    }
+		    return cookieValue;
+		}
+		var csrftoken = getToken('csrftoken')
+
+		function getCookie(name) {
+		    // Split cookie string and get all individual name=value pairs in an array
+		    var cookieArr = document.cookie.split(";");
+
+		    // Loop through the array elements
+		    for(var i = 0; i < cookieArr.length; i++) {
+		        var cookiePair = cookieArr[i].split("=");
+
+		        /* Removing whitespace at the beginning of the cookie name
+		        and compare it with the given string */
+		        if(name == cookiePair[0].trim()) {
+		            // Decode the cookie value and return
+		            return decodeURIComponent(cookiePair[1]);
+		        }
+		    }
+
+		    // Return null if not found
+		    return null;
+		}
+		var cart = JSON.parse(getCookie('cart'))
+
+		if (cart == undefined){
+			cart = {}
+			console.log('Cart Created!', cart)
+			document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
+		}
+		console.log('Cart:', cart)
+	
+	</script>
+
+    </head>
+    
+    <body>
+
+
+    <div class="container">
+        <div class="navbar">
+            <h1>BendTheTrend</h1>
+            <nav>
+                <ul id="MenuItems">
+                    <li><a href="{% url 'mainpaged' %}">HOME</a></li>
+                    <li><a href="{% url 'allproductsd' %}">PRODUCTS</a></li>
+                    <li><a href="{% url 'aboutd' %}">ABOUT</a></li>
+                    <li><a href="{% url 'homed' %}">ADD PRODUCTS</a></li>
+                    {% if user.is_authenticated %}
+                    <li><a href="#"><b>Hello {{user.username}}</b></a></li>
+                    <li><a href="{% url 'logoutd' %}">LOGOUT</a></li>
+                    {% else %}
+                    <li><a href="/login">LOGIN</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+            <img src="{% static 'images/cart.png' %}" width="30px" height="30px">
+            <img src="{% static 'images/menu.png' %}" class="menu-icon" onclick="menutoggle()">
+        </div>
+    </div>
+
+<!---------------Featured products-------->
+<div class="small-container">
+    <div class="row row-2">
+        <h2>All Products</h2>
+        <select>
+            <option>Default</option>
+            <option>Sort by price</option>
+            <option>Sort by popularity</option>
+            <option>Sort by rating</option>
+            <option>Sort by sale</option>
+        </select>
+    </div>
+    <!-- <div class="row">
+        <div class="col-4">
+            <img src="{% static 'images/product-1.jpg' %}">
+            <h4>Red Printed T-Shirt</h4>
+            <p>Rs.350.00</p>
+        </div>
+
+        <div class="col-4">
+            <img src="{% static 'images/product-2.jpg' %}">
+            <h4>Black Casual Shoes</h4>
+            <p>Rs.1599.50</p>
+            
+        </div>
+
+        <div class="col-4">
+            <img src="{% static 'images/product-3.jpg' %}">
+            <h4>Grey Track Pant</h4>
+            <p>Rs.550.25</p>
+        </div>
+
+        <div class="col-4">
+            <img src="{% static 'images/product-4.jpg' %}">
+            <h4>Blue T-Shirt</h4>
+            <p>Rs.450.00</p>
+        </div>
+    </div>
+
+
+    <div class="row">
+        <div class="col-4">
+            <img src="{% static 'images/product-5.jpg' %}">
+            <h4>Grey Trendy Shoes</h4>
+            <p>Rs.1099.00</p>
+        </div>
+
+        <div class="col-4">
+            <img src="{% static 'images/product-6.jpg' %}">
+            <h4>Black Puma T-Shirt</h4>
+            <p>Rs.450.00</p>
+        </div>
+
+        <div class="col-4">
+            <img src="{% static 'images/product-7.jpg' %}">
+            <h4>Triple Combo Socks</h4>
+            <p>Rs.699.50</p>
+        </div>
+
+        <div class="col-4">
+            <img src="{% static 'images/product-8.jpg' %}">
+            <h4>Branded Black Fossil Watch</h4>
+            <p>Rs.9565.00</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-4">
+            <img src="{% static 'images/product-9.jpg' %}">
+            <h4>Black Trendy Watch</h4>
+            <p>Rs.1050.00</p>
+        </div>
+
+        <div class="col-4">
+            <img src="{% static 'images/product-10.jpg' %}">
+            <h4>Fashion Shoes</h4>
+            <p>Rs.999.00</p>
+        </div>
+
+        <div class="col-4">
+            <img src="{% static 'images/product-11.jpg' %}">
+            <h4>Grey Formal Shoes</h4>
+            <p>Rs.799.50</p>
+        </div>
+
+        <div class="col-4">
+            <img src="{% static 'images/product-12.jpg' %}">
+            <h4>Black Night Pant</h4>
+            <p>Rs.850.00</p>
+        </div>
+
+        <div class="page-btn">
+            <span>1</span>
+            <span>2</span>
+            <span>3</span>
+            <span>4</span>
+            <span>&#8594;</span>
+        </div>
+    </div> -->
+    <div class="row">
+        {% for i in img %}
+        <div class="col-lg-4">
+        <img src="/media/{{i.image}}"  style="width:85%">
+        <div class="container">
+            <h4><b>Name: {{i.name}}</b></h4>
+            <h4><b>Price: Rs. {{i.price}}</b></h4>
+            <button data-product="{{i.id}}" data-action="add" class="btn btn-outline-secondary add-btn update-cart">Add to Cart</button><br><br>
+        </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+<!------footer-------->
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="footer-col-1">
+                <h3>Download Our App</h3>
+                <p>Download App for Android and mobile phone</p>
+                <div class="app-logo">
+                    <img src="{% static 'images/play-store.png' %}">
+                    <img src="{% static 'images/app-store.png' %}">
+                </div>
+            </div>  
+            
+            <div class="footer-col-2">
+                <img src="{% static 'images/logo.jpg' %}">
+                <p>Our Purpose is to sustainably make the pleasure and benefits of our products accessible to the many</p>
+            </div>
+            
+            <div class="footer-col-3">
+                <h3>Useful Links</h3>
+                <ul>
+                    <li>Aboutus</li>
+                    <li>Contactus</li>
+                    <li>Products</li>
+                </ul>
+            </div>
+
+            <div class="footer-col-4">
+                <h3>Follow us</h3>
+                <ul>
+                    <li>Facebook</li>
+                    <li>Twitter</li>
+                    <li>Instagram</li>
+                    <li>Youtube</li>
+                </ul>
+            </div>
+            <p class="copyright">Copyright 2020 - BendTheTrend</p>
+        </div>
+    </div>
+</div>
+
+<!---------js for toggle menu----------->
+<script>
+    var MenuItems = document.getElementById("MenuItems");
+
+    MenuItems.style.maxHeight = "0px";
+
+    function menutoggle() {
+        if(MenuItems.style.maxHeight == "0px")
+        {
+            MenuItems.style.maxHeight = "200px";
+        }
+        else{
+            MenuItems.style.maxHeight = "0px";
+        }
+    }
+</script>
+</body>
+</html>

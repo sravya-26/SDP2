@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale="1.0">
+        <title>BendTheTrend</title>
+        <!-- <link rel="stylesheet" href="{% static 'css/style.css' %}"> -->
+		<link rel="stylesheet" href="{% static 'css/navbar.css' %}">
+		<!-- <link rel="stylesheet" href="{% static 'css/cart.css' %}"> -->
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css">
+        <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/fontawesome.min.css" rel="stylesheet">
+		<script>(function(w, d) { w.CollectId = "60a4cb8c48f4d437a0f25cff"; var h = d.head || d.getElementsByTagName("head")[0]; var s = d.createElement("script"); s.setAttribute("type", "text/javascript"); s.async=true; s.setAttribute("src", "https://collectcdn.com/launcher.js"); h.appendChild(s); })(window, document);</script>
+    </head>
+	<script>
+        var cart = JSON.parse(getCookie('cart'))
+        if (cart == undefined)
+        {
+           cart = {}
+           console.log('Cart Created!', cart)
+           document.cookie ='cart=' + JSON.stringify(cart) + ";domain=;path=/"
+        }
+        console.log('Cart:', cart)
+    </script>
+
+	<style>
+		.box-element{
+	box-shadow:hsl(0, 0%, 80%) 0 0 16px;
+	background-color: #fff;
+	border-radius: 4px;
+	padding: 10px;
+}
+
+.cart-row{
+	display: flex;
+    align-items: flex-stretch;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ececec;
+
+}
+
+.quantity{
+	display: inline-block;
+	font-weight: 700;
+	padding-right:10px;
+	
+
+}
+
+.chg-quantity{
+	width: 12px;
+	cursor: pointer;
+	display: block;
+	margin-top: 5px;
+	transition:.1s;
+}
+
+.chg-quantity:hover{
+	opacity: .6;
+}
+
+.cart-row{
+	display: flex;
+    align-items: flex-stretch;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+    border-bottom: 1px solid #ececec;
+
+}
+
+.col-lg-12{
+	margin-top: 10px;
+}
+
+.row-image{
+	width: 100px;
+}
+
+	</style>
+	<body>
+
+		
+		<div class="header">
+
+			{% block header %}
+			<div class="container">
+				<div class="navbar">
+					<h1>BendTheTrend</h1>
+					<!-- <div class="logo">
+						<img src="images/logo.jpg" width="125px">
+					</div> -->
+					<nav>
+						<ul id="MenuItems">
+							<li><a href="">HOME</a></li>
+							<li><a href="{% url 'allproducts' %}">PRODUCTS</a></li>
+							<li><a href="{% url 'about' %}">ABOUT</a></li>
+							<li><a href="{% url 'contact' %}">CONTACT</a></li>
+							{% if user.is_authenticated %}
+							<li><a href="#"><b>Hello {{user.username}}</b></a></li>
+							<li><a href="{% url 'logout' %}">Logout</a></li>
+							{% else %}
+							<li><a href="{% url 'login' %}">LOGIN</a></li>
+							<li><a href="{% url 'register' %}">REGISTER</a></li>
+							{% endif %}
+		
+						</ul>
+					</nav>
+					<img src="{% static 'images/cart.png' %}" width="30px" height="30px">
+				</div>
+				{% endblock header %}
+
+{% block content %}
+	<div class="row">
+		<div class="col-lg-12">
+			<div class="box-element">
+				
+				<table class="table">
+					<tr>
+						<!-- <th><h5>Items: <strong>{{order.get_cart_items}}</strong></h5></th> -->
+						<th>
+							<a  class="btn btn-outline-dark" href="{% url 'allproducts' %}">&#x2190; Continue Shopping</a>
+						</th>
+
+						<th>
+							<a  style="float:right; margin: 5px; position: absolute; right: 461px;" class="btn btn-success" href="{% url 'checkout' %}">Checkout</a>
+						</th>
+						<th><h5 style="position: absolute; right: 341px;">Total:<strong> Rs. {{sum}}</strong></h5></th>
+					</tr>
+				</table>
+
+			</div>
+
+			<br>
+			<div class="box-element">
+				<div class="cart-row">
+					<div style="flex:2"></div>
+					<div style="flex:2"><strong>Item</strong></div>&nbsp;&nbsp;&nbsp;&nbsp;
+					<div style="flex:2"><strong>Price</strong></div>&nbsp;&nbsp;&nbsp;&nbsp;
+					<!-- <div style="flex:1"><strong>Quantity</strong></div>&nbsp;&nbsp;&nbsp;&nbsp;
+					<div style="flex:1"><strong>Total</strong></div>&nbsp;&nbsp;&nbsp;&nbsp; -->
+					<!-- <div style="flex:1"><strong>Image</strong></div>&nbsp;&nbsp;&nbsp;&nbsp; -->
+				</div>
+				<!-- {% for item in items %}
+				<div class="cart-row">
+					<div style="flex:2"><img class="row-image" src="{{item.product.imageURL}}"></div>
+					<div style="flex:2"><p>{{item.i.name}}</p></div>
+					<div style="flex:1"><p>${{item.i.price|floatformat:2}}</p></div>
+					<div style="flex:1">
+						<p class="quantity">{{item.quantity}}</p>
+						<div class="quantity">
+							<img data-product="{{item.product.id}}" data-action="add" class="chg-quantity update-cart" src="{% static 'images/arrow-up.png' %}">
+					
+							<img data-product="{{item.product.id}}" data-action="remove" class="chg-quantity update-cart" src="{% static  'images/arrow-down.png' %}">
+						</div>
+					</div>
+					<div style="flex:1"><p>${{item.get_total|floatformat:2}}</p></div>
+				</div>
+				{% endfor %} -->
+
+				{% for item in items %}
+				<div class="cart-row">
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<div style="flex:2"><p>{{item.i.name}}</p></div>
+					<div style="flex:2"><p>Rs. {{item.i.price|floatformat:2}}</p></div>
+					<!-- <div style="flex:1">
+						<p class="quantity">{{item.quantity}}</p>
+						<div class="quantity">
+							<img data-product="{{item.i.id}}" data-action="add" class="chg-quantity update-cart" src="{% static 'images/arrow-up.png' %}">
+							<img data-product="{{item.i.id}}" data-action="remove" class="chg-quantity update-cart" src="{% static  'images/arrow-down.png' %}">
+						</div>
+					</div>
+					<div style="flex:1"><p>${{item.get_total|floatformat:2}}</p></div> -->
+					<!-- <div style="flex:2">Image: <img class="row-image" src="{{item.i.imageURL}}"></div> -->
+				</div>
+				{% endfor %}
+            <div style="flex:2; position: absolute; right: 461px;"><p><strong>Total: </strong>Rs. {{sum}}</p></div><br><br>
+			</div>
+		</div>
+	</div>
+{% endblock content %}
+</body>
+</html>

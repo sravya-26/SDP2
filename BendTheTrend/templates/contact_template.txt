@@ -1,0 +1,8 @@
+Name:
+{{ Enter_Name }}
+
+Email:
+{{ Enter_Email }}
+
+Message:
+{{ form_Message|safe|striptags }}

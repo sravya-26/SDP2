@@ -1,0 +1,219 @@
+{% load static %}
+
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="{% static 'css/aboutus.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="JS_files/about-us.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/aos@next/dist/aos.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.3/css/fontawesome.min.css" rel="stylesheet">
+    <script>(function(w, d) { w.CollectId = "60a4cb8c48f4d437a0f25cff"; var h = d.head || d.getElementsByTagName("head")[0]; var s = d.createElement("script"); s.setAttribute("type", "text/javascript"); s.async=true; s.setAttribute("src", "https://collectcdn.com/launcher.js"); h.appendChild(s); })(window, document);</script>
+</head>
+
+<body>
+    <!--header part start-->
+    <div class="container">
+        <div class="navbar">
+            <h1>BendTheTrend</h1>
+            <nav>
+                <ul id="MenuItems">
+                    <li><a href="{% url 'index' %}">HOME</a></li>
+                    <li><a href="{% url 'allproducts' %}">PRODUCTS</a></li>
+                    <li><a href="{% url 'about' %}">ABOUT</a></li>
+                    <li><a href="{% url 'contact' %}">CONTACT</a></li>
+                    {% if user.is_authenticated %}
+                    <li><a href="#"><b>Hello {{user.username}}</b></a></li>
+                    <li><a href="{% url 'logout' %}">Logout</a></li>
+                    {% else %}
+                    <li><a href="{% url 'login' %}">LOGIN</a></li>
+                    <li><a href="{% url 'register' %}">REGISTER</a></li>
+                    {% endif %}
+                </ul>
+            </nav>
+            <img src="{% static 'images/cart.png' %}" width="30px" height="30px">
+            <img src="{% static 'images/menu.png' %}" class="menu-icon" onclick="menutoggle()">
+        </div>
+    </div>
+    <!--header part end-->
+
+    <!--middle part start-->
+    <div class="container mt-5">
+        <div class="row mt-5">
+            <div class="col-12 mt-5 text-center">
+                <h2><span>About us</span></h2>
+            </div>
+        </div>
+
+        <!--main content-->
+        <div class="row mt-5">
+            <div class="col-xl-6 col-lg-6 col-sm-12 text-center">
+                <img src="{% static 'images/aboutus.jpg' %}">
+            </div>
+            <div class="col-xl-6 col-lg-6 col-sm-12 pt-5" style="font-weight: 600;">
+                BendTheTrend is a Fashion website which is evolving rapidly.
+                We keep up with the trends and aims to provide a better
+                service to both our designers and customers! Generally,
+                our customers desire for lower prices, better selection,
+                and convenient services. And we the BendTheTrend team 
+                can proudly say that we are upto the mark as of now. We
+                work every day to earn and keep customers’ trust. Our 
+                passion for delighting customers drives us to constantly
+                invent on their behalf. Working backward from customer needs,
+                we’re constantly seeking to improve our services, add benefits
+                and features, and invent new products. 
+            </div>
+        </div>
+        <!--main content-->
+
+        <!--cards-->
+        <!-- <div class="row mt-5 mb-5">
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mt-4 mb-4">
+                <div class="card">
+                    <div class="card-header text-center">Lorem ipsum</div>
+                    <div class="card-body"><img src="{% static 'images/user-1.jpg' %}" height="200px" width="100%">
+                        <p class="pt-3"> Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            Praesent facilisis ac arcu et aliquet. Morbi tincidunt
+                            nisl vel finibus aliquam. Integer vestibulum ligula sit
+                            amet neque egestas, nec rhoncus eros convallis.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12 mt-4">
+                <div class="card">
+                    <div class="card-header text-center">Lorem ipsum</div>
+                    <div class="card-body"><img src="{% static 'images/user-2.jpg' %}" height="200px" width="100%">
+                        <p class="pt-3"> Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            Praesent facilisis ac arcu et aliquet. Morbi tincidunt
+                            nisl vel finibus aliquam. Integer vestibulum ligula sit
+                            amet neque egestas, nec rhoncus eros convallis.</p>
+                    </div>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12  mt-4 card-3">
+                <div class="card">
+                    <div class="card-header text-center">Lorem ipsum</div>
+                    <div class="card-body"><img src="{% static 'images/user-3.jpg' %}" height="200px" width="100%">
+                        <p class="pt-3"> Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                            Praesent facilisis ac arcu et aliquet. Morbi tincidunt
+                            nisl vel finibus aliquam. Integer vestibulum ligula sit
+                            amet neque egestas, nec rhoncus eros convallis.</p>
+                    </div>
+                </div>
+            </div>
+        </div> -->
+
+
+
+        <div class="testimonal">
+            <div class="small-container"></div>
+                <div class="row">
+                    <div class="col-3">
+                        <p>
+                            Email: sravyakoyi26@gmail.com
+                        </p>
+                        <img src="{% static 'images/user-1.jpg' %}">
+                        <h3>Sravya Koyi</h3>
+                    </div>
+        
+                    <div class="col-3">
+                        <p>
+                            Email: suprajapekala@gmail.com
+                        </p>
+                        <img src="{% static 'images/user-2.jpg' %}">
+                        <h3>Supraja Pekala</h3>
+                    </div>
+        
+                    <div class="col-3">
+                        <!-- <i class="fa fa-quote-left"></i> -->
+                        <p>
+                            Email: bhavyavankayala@gmail.com
+                        </p>
+                        <!-- <div class="rating">
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star"></i>
+                            <i class="fa fa-star-o"></i>
+                        </div> -->
+                        <img src="{% static 'images/user-3.jpg' %}"">
+                        <h3>Bhavya Vankayala</h3>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!--cards-->
+    </div>
+    <!--middle part end-->
+
+    <!------footer-------->
+
+<div class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="footer-col-1">
+                <h3>Download Our App</h3>
+                <p>Download App for Android and mobile phone</p>
+                <div class="app-logo">
+                    <img src="{% static 'images/play-store.png' %}">
+                    <img src="{% static 'images/app-store.png' %}">
+                </div>
+            </div>  
+            
+            <div class="footer-col-2">
+                <img src="{% static 'images/logo.jpg' %}">
+                <p>Our Purpose is to sustainably make the pleasure and benefits of our products accessible to the many</p>
+            </div>
+            
+            <div class="footer-col-3">
+                <h3>Useful Links</h3>
+                <ul>
+                    <li>Aboutus</li>
+                    <li>Contactus</li>
+                    <li>Products</li>
+                </ul>
+            </div>
+
+            <div class="footer-col-4">
+                <h3>Follow us</h3>
+                <ul>
+                    <li>Facebook</li>
+                    <li>Twitter</li>
+                    <li>Instagram</li>
+                    <li>Youtube</li>
+                </ul>
+            </div>
+            <p class="copyright">Copyright 2020 - BendTheTrend</p>
+        </div>
+    </div>
+</div>
+
+<!---------js for toggle menu----------->
+<script>
+    var MenuItems = document.getElementById("MenuItems");
+
+    MenuItems.style.maxHeight = "0px";
+
+    function menutoggle() {
+        if(MenuItems.style.maxHeight == "0px")
+        {
+            MenuItems.style.maxHeight = "200px";
+        }
+        else{
+            MenuItems.style.maxHeight = "0px";
+        }
+    }
+</script>
+</body>
+
+</html>

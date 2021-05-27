@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BendTheTrend</title>  
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet"> 
+    <link href="{% static 'css/login.css' %}" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+    <form action="{% url 'checklogind' %}" method="POST">
+        {% csrf_token %}
+        <p>Designer Login</p>
+        <input type="username" name="username" placeholder="username" required><br>
+        <input type="password" name="password" placeholder="Password" required><br>
+        <input type="submit" value="login"><br>
+        <h2><a href="{% url 'login' %}">Are you a customer?</a></h2>
+        <!-- <button type="submit" class="signin-button">Login</button> -->
+        <!-- <a href="{% url 'login' %}">Are you a customer?</a> -->
+    </form>
+
+    <div class="drops">
+        <div class="drop drop-1"></div>
+        <div class="drop drop-2"></div>
+        <div class="drop drop-3"></div>
+        <div class="drop drop-4"></div>
+        <div class="drop drop-5"></div>
+    </div>
+
+</div>
+
+
+</body>
+</html>
